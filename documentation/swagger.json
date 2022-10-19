@@ -1,0 +1,701 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Postara API documentation",
+        "description": "Postaral app staging api documentation",
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        },
+        "contact": {
+            "name": "Postara",
+            "email": "community.Postara@gmail.com"
+        }
+    },
+    "components": {
+        "securitySchemes": [
+            {
+                "bearerAuth": {
+                    "type": "http",
+                    "description": "access token",
+                    "scheme": "bearer",
+                    "bearerFormat": "JWT",
+                    "in": "header"
+                }
+            }
+        ]
+    },
+    "security": {},
+    "servers": [
+        "https://api.Postara.ml/"
+    ],
+    "basePath": "/",
+    "tags": [
+        {
+            "name": "Users",
+            "description": "API for app to signup and users details"
+        }
+    ],
+    "schemes": [
+        "http",
+        "https"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/signup": {
+            "post": {
+                "tags": [
+                    "Signup"
+                ],
+                "summary": "Create new user",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "description": "User that we want to create",
+                        "schema": {
+                            "$ref": "#/definitions/Signup"
+                        }
+                    },
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "required": true,
+                        "default": 1,
+                        "description": "user status Ex- 1-active, 2-inactive, 3-suspended, 4-deleted",
+                        "type": "integer",
+                        "enum": [
+                            1,
+                            2,
+                            3,
+                            4
+                        ]
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "201": {
+                        "description": "New user is created",
+                        "schema": {
+                            "$ref": "#/definitions/201"
+                        }
+                    },
+                    "409": {
+                        "description": "User already exists",
+                        "schema": {
+                            "$ref": "#/definitions/409"
+                        }
+                    },
+                    "400": {
+                        "schema": {
+                            "$ref": "#/definitions/400"
+                        }
+                    },
+                    "500": {
+                        "schema": {
+                            "$ref": "#/definitions/500"
+                        }
+                    }
+                }
+            }
+        },
+        "/login": {
+            "post": {
+                "tags": [
+                    "Login"
+                ],
+                "summary": "Signin for user/admin/superadmin",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "description": "Signin details",
+                        "schema": {
+                            "$ref": "#/definitions/signinPayloadRef"
+                        }
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "schema": {
+                            "properties": {
+                                "message": {
+                                    "example": "success"
+                                },
+                                "status": {
+                                    "example": 200
+                                },
+                                "data": {
+                                    "example": {
+                                        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+                                        "userId": "60a8c5b03557df08ea23086d",
+                                        "role": "USER",
+                                        "profilePic": "https://jagan.cf/jagan.png",
+                                        "fullName": "Jagan",
+                                        "email": "jagannath18@navgurukul.org",
+                                        "status": 1,
+                                        "statusText": "ACTIVE"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "schema": {
+                            "$ref": "#/definitions/400"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid username or password",
+                        "schema": {
+                            "$ref": "#/definitions/404"
+                        }
+                    },
+                    "500": {
+                        "schema": {
+                            "$ref": "#/definitions/500"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Users": {
+            "required": [
+                "firstName",
+                "email",
+                "password",
+                "phoneNumber",
+                "dialCode",
+                "gender",
+                "language"
+            ],
+            "properties": {
+                "firstName": {
+                    "type": "string",
+                    "example": "John"
+                },
+                "lastName": {
+                    "type": "string",
+                    "example": "Cinha"
+                },
+                "email": {
+                    "type": "string",
+                    "example": "example@gmail.com"
+                },
+                "password": {
+                    "type": "string",
+                    "example": "Passw0Rd@$123"
+                },
+                "language": {
+                    "type": "string",
+                    "example": "en",
+                    "default": "en"
+                },
+                "role": {
+                    "type": "string",
+                    "example": "USER",
+                    "enum": [
+                        "USER",
+                        "ADMIN"
+                    ]
+                },
+                "gender": {
+                    "type": "string",
+                    "example": "male"
+                },
+                "phoneNumber": {
+                    "type": "string",
+                    "example": "89898876565"
+                },
+                "dialCode": {
+                    "type": "string",
+                    "example": "+91"
+                },
+                "ipAddress": {
+                    "type": "string",
+                    "example": "106.51.66.43"
+                },
+                "latitude": {
+                    "type": "string",
+                    "example": ""
+                },
+                "longitude": {
+                    "type": "string",
+                    "example": ""
+                },
+                "country": {
+                    "type": "string",
+                    "example": ""
+                },
+                "state": {
+                    "type": "string",
+                    "example": ""
+                },
+                "city": {
+                    "type": "string",
+                    "example": ""
+                },
+                "addressLine1": {
+                    "type": "string",
+                    "example": ""
+                },
+                "dataOfBirth": {
+                    "type": "string",
+                    "example": "19-04-1998"
+                },
+                "addressLine2": {
+                    "type": "string",
+                    "example": ""
+                },
+                "zipCode": {
+                    "type": "string",
+                    "example": ""
+                },
+                "device": {
+                    "type": "string",
+                    "example": "BROWSER"
+                },
+                "deviceId": {
+                    "type": "string",
+                    "example": "118683587"
+                },
+                "deviceToken": {
+                    "type": "string",
+                    "example": "118683587"
+                },
+                "manufacturer": {
+                    "type": "string",
+                    "example": "Android"
+                },
+                "model": {
+                    "type": "string",
+                    "example": "Y2"
+                },
+                "os": {
+                    "type": "string",
+                    "example": "Chrome"
+                }
+            }
+        },
+        "Signup": {
+            "required": [
+                "username",
+                "email",
+                "password"
+            ],
+            "properties": {
+                "username": {
+                    "type": "string",
+                    "example": "Test"
+                },
+                "email": {
+                    "type": "string",
+                    "example": "example@gmail.com"
+                },
+                "password": {
+                    "type": "string",
+                    "example": "Passw0Rd@$123"
+                }
+            }
+        },
+        "postMessage": {
+            "required": [
+                "postType",
+                "postOn",
+                "files",
+                "hashTag",
+                "description",
+                "commentable",
+                "taggedUsers"
+            ],
+            "properties": {
+                "postType": {
+                    "type": "number",
+                    "example": 1
+                },
+                "postOn": {
+                    "type": "number",
+                    "example": 1
+                },
+                "files": {
+                    "type": "string",
+                    "example": "https://www.image.com"
+                },
+                "hashTag": {
+                    "type": "string",
+                    "example": [
+                        "#sunset",
+                        "#dinner"
+                    ]
+                },
+                "description": {
+                    "type": "string",
+                    "example": "Hi! This is the first message for post"
+                },
+                "commentable": {
+                    "type": "boolean",
+                    "example": true
+                },
+                "taggedUsers": {
+                    "type": "array",
+                    "example": [
+                        "@jorden",
+                        "@alen_ben"
+                    ]
+                }
+            }
+        },
+        "UserResp": {
+            "properties": {
+                "_id": {
+                    "example": "5fbe6ea404a57a1e8b04016d"
+                },
+                "firstName": {
+                    "example": "Pratik"
+                },
+                "lastName": {
+                    "example": "Deshmukh"
+                },
+                "email": {
+                    "example": "pratik18@gmail.com"
+                },
+                "language": {
+                    "example": "en"
+                },
+                "gender": {
+                    "example": "male"
+                },
+                "phoneNumber": {
+                    "example": "7866564587"
+                },
+                "dialCode": {
+                    "example": "+91"
+                },
+                "ipAddress": {
+                    "example": "10.10.10.44"
+                },
+                "latitude": {
+                    "example": "77.234"
+                },
+                "longitude": {
+                    "example": "23.4532"
+                },
+                "country": {
+                    "example": "India"
+                },
+                "dateOfBirth": {
+                    "example": "India"
+                },
+                "state": {
+                    "example": "Uttar Pradesh"
+                },
+                "city": {
+                    "example": "Noida"
+                },
+                "addressLine1": {
+                    "example": "sec 102, bhangel, noida"
+                },
+                "addressLine2": {
+                    "example": ""
+                },
+                "zipCode": {
+                    "example": "201304"
+                },
+                "device": {
+                    "example": "Android"
+                },
+                "model": {
+                    "example": "Y2"
+                },
+                "os": {
+                    "example": "Chrome"
+                }
+            }
+        },
+        "updateUser": {
+            "properties": {
+                "fullName": {
+                    "type": "string",
+                    "example": ""
+                },
+                "userImage": {
+                    "type": "string",
+                    "example": ""
+                },
+                "language": {
+                    "type": "string",
+                    "example": ""
+                },
+                "gender": {
+                    "type": "string",
+                    "example": ""
+                },
+                "dateOfBirth": {
+                    "type": "string",
+                    "example": ""
+                },
+                "phoneNumber": {
+                    "type": "string",
+                    "example": ""
+                },
+                "dialCode": {
+                    "type": "string",
+                    "example": ""
+                },
+                "ipAddress": {
+                    "type": "string",
+                    "example": ""
+                },
+                "latitude": {
+                    "type": "string",
+                    "example": ""
+                },
+                "longitude": {
+                    "type": "string",
+                    "example": ""
+                },
+                "country": {
+                    "type": "string",
+                    "example": ""
+                },
+                "state": {
+                    "type": "string",
+                    "example": ""
+                },
+                "city": {
+                    "type": "string",
+                    "example": ""
+                },
+                "addressLine1": {
+                    "type": "string",
+                    "example": ""
+                },
+                "addressLine2": {
+                    "type": "string",
+                    "example": ""
+                },
+                "zipCode": {
+                    "type": "string",
+                    "example": ""
+                },
+                "device": {
+                    "type": "string",
+                    "example": ""
+                },
+                "model": {
+                    "type": "string",
+                    "example": ""
+                },
+                "os": {
+                    "type": "string",
+                    "example": ""
+                }
+            }
+        },
+        "signinPayloadRef": {
+            "required": [
+                "email",
+                "password"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "example": "example@gmail.com"
+                },
+                "password": {
+                    "type": "string",
+                    "example": "Passw0Rd@$123"
+                },
+                "loginType": {
+                    "type": "number",
+                    "example": 1,
+                    "enum": [
+                        1,
+                        2,
+                        3
+                    ],
+                    "description": "Ex- 1-email login, 2-google login, 3-facebook login"
+                }
+            }
+        },
+        "signinResRef": {
+            "properties": {
+                "_id": {
+                    "example": "5fbe6ea404a57a1e8b04016d"
+                },
+                "firstName": {
+                    "example": "Pratik"
+                },
+                "lastName": {
+                    "example": "Deshmukh"
+                },
+                "email": {
+                    "example": "pratik18@gmail.com"
+                },
+                "language": {
+                    "example": "en"
+                },
+                "gender": {
+                    "example": "male"
+                },
+                "phoneNumber": {
+                    "example": "7866564587"
+                },
+                "dialCode": {
+                    "example": "+91"
+                },
+                "ipAddress": {
+                    "example": "10.10.10.44"
+                },
+                "latitude": {
+                    "example": "77.234"
+                },
+                "longitude": {
+                    "example": "23.4532"
+                },
+                "country": {
+                    "example": "India"
+                },
+                "dateOfBirth": {
+                    "example": "India"
+                },
+                "state": {
+                    "example": "Uttar Pradesh"
+                },
+                "city": {
+                    "example": "Noida"
+                },
+                "addressLine1": {
+                    "example": "sec 102, bhangel, noida"
+                },
+                "addressLine2": {
+                    "example": ""
+                },
+                "zipCode": {
+                    "example": "201304"
+                },
+                "device": {
+                    "example": "Android"
+                },
+                "model": {
+                    "example": "Y2"
+                },
+                "os": {
+                    "example": "Chrome"
+                },
+                "token": {
+                    "example": "Bearer eyxdf324dvsoaioirwo....."
+                }
+            }
+        },
+        "201": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Success"
+                },
+                "status": {
+                    "type": "integer",
+                    "example": 201
+                }
+            }
+        },
+        "204": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Data not found!"
+                },
+                "status": {
+                    "type": "integer",
+                    "example": 204
+                },
+                "data": {
+                    "type": "array",
+                    "items": {},
+                    "example": []
+                }
+            }
+        },
+        "400": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Bad Request!"
+                },
+                "status": {
+                    "type": "integer",
+                    "example": 400
+                }
+            }
+        },
+        "401": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Unauthorized!"
+                },
+                "status": {
+                    "type": "integer",
+                    "example": 401
+                }
+            }
+        },
+        "404": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Page not found!"
+                },
+                "status": {
+                    "type": "integer",
+                    "example": 404
+                }
+            }
+        },
+        "409": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Duplicate data!"
+                },
+                "status": {
+                    "type": "integer",
+                    "example": 409
+                }
+            }
+        },
+        "500": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Internal server error!"
+                },
+                "status": {
+                    "type": "integer",
+                    "example": 500
+                }
+            }
+        }
+    }
+}
